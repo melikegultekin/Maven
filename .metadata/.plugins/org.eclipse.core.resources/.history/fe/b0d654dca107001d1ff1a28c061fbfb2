@@ -1,0 +1,36 @@
+//package testpackage;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.testng.Assert;
+import org.testng.annotations.AfterTest;
+import org.testng.annotations.BeforeTest;
+import org.testng.annotations.Test;
+import org.openqa.selenium.WebDriver.Timeouts;
+import org.apache.log4j.Logger;
+import java.util.concurrent.TimeUnit;
+public class test {
+	
+	public WebDriver driver;
+    final static Logger logger = Logger.getLogger(test.class);
+    private static String url = "https://demo.yasinalbakir.net";
+
+    public void setUp() {
+        logger.info("Test baþlatýldý.");
+        System.setProperty("webdriver.chrome.driver", "C:/selenium-driver/chromedriver.exe");
+        driver = new ChromeDriver();
+        driver.manage().window().maximize();
+        driver.manage().timeouts().pageLoadTimeout(5, TimeUnit.SECONDS);
+    }
+    @Test
+    public void loginTest() {
+        driver.navigate().to(url);
+        logger.info("Test Edilecek Sayfa : " + driver.getTitle());
+        driver.findElement(By.id("kullaniciAdi")).sendKeys("admin");
+        driver.findElement(By.id("parola")).sendKeys("123456");
+        driver.findElement(By.id("btnGirisYap")).click();
+        logger.info("Yönlendirilen Sayfa : " + driver.getTitle());
+        String actResult = "Kullanýcý Tanýmlama";
+        Assert.assertEquals(actResult, driver.getTitle());
+    }
+}
